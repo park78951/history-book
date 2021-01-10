@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-const { override, useBabelRc } = require('customize-cra');
+const { override, addBabelPreset } = require('customize-cra');
 
-module.exports = override(useBabelRc());
+module.exports = override(addBabelPreset('@emotion/babel-preset-css-prop'));
