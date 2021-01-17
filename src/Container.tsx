@@ -1,15 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { css } from "@emotion/react";
 import { atom, useRecoilState } from "recoil";
-
-/**
- *  id: "19248"
- *  lastVisitTime: 1610870494870.381
- *  title: "Atoms | Recoil"
- *  typedCount: 0
- *  url: "https://recoiljs.org/docs/basic-tutorial/atoms"
- *  visitCount: 3
- */
 
 const convertDateFormat = (num: number): string => {
   const dateFormat = new Date(num);
@@ -92,7 +83,6 @@ const Container = () => {
                 width: 87px;
               `}
             >
-              {" "}
               {history.lastVisitTime
                 ? convertDateFormat(history.lastVisitTime)
                 : "정보없음"}
