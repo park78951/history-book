@@ -13,9 +13,22 @@ import { atom, useRecoilState } from "recoil";
 
 const convertDateFormat = (num: number): string => {
   const dateFormat = new Date(num);
-  return `${dateFormat.getFullYear()}년 ${dateFormat.getMonth()}월 ${dateFormat.getDate()}일 ${
-    dateFormat.getHours
-  }시 ${dateFormat.getMinutes()}분`;
+  const year = dateFormat.getFullYear() % 100;
+  const month = (dateFormat.getMonth() + 1).toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  const date = dateFormat
+    .getDate()
+    .toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+  const hours = dateFormat
+    .getHours()
+    .toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+  const minutes = dateFormat
+    .getMinutes()
+    .toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+
+  return `${year}-${month}-${date} ${hours}:${minutes}`;
 };
 
 const historiesState = atom<chrome.history.HistoryItem[]>({
@@ -40,24 +53,46 @@ const Container = () => {
         background-color: #000;
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
           0 10px 10px rgba(0, 0, 0, 0.22);
-        overflow-y: hidden;
+        overflow-y: auto;
       `}
     >
       <ul
         css={css`
-          overflow-y: scroll;
+          overflow-y: auto;
+          list-style: none;
+          padding: 0 10px;
         `}
       >
         {histories.map(history => (
           <li
             css={css`
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
               color: #fff;
             `}
           >
-            <span>제목: {history.title || "무제"}</span>
-            <span>주소: {history.url}</span>
-            <span>
-              방문시간:{" "}
+            <span
+              css={css`
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 240px;
+              `}
+            >
+              {history.title || "무제"}
+            </span>
+            <span
+              css={css`
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 87px;
+              `}
+            >
+              {" "}
               {history.lastVisitTime
                 ? convertDateFormat(history.lastVisitTime)
                 : "정보없음"}
