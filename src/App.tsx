@@ -1,9 +1,6 @@
-import React from 'react';
-import './App.css';
+import React from "react";
 import Container from "./Container";
-import {
-  RecoilRoot
-} from 'recoil';
+import { RecoilRoot } from "recoil";
 
 function App() {
   return (
