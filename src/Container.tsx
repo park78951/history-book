@@ -1,68 +1,37 @@
-import React from 'react';
-import { css } from '@emotion/react';
-import { atom, useRecoilState, RecoilRoot } from 'recoil';
+import { FC, useEffect } from "react";
+import { css } from "@emotion/react";
+import { atom, useRecoilState } from "recoil";
 
-const containerShowState = atom({
-  key: 'containerShow',
-  default: false,
+import HistoryList from "./HistoryList";
+
+const historiesState = atom<chrome.history.HistoryItem[]>({
+  key: "historiesState",
+  default: [],
 });
 
-interface IContainerProp {
-  direction?: string;
-}
+const Container: FC = () => {
+  const [histories, setHistories] = useRecoilState(historiesState);
 
-interface IToggleButtonProp {
-  onClick: () => void;
-}
-
-const ToggleButton = (prop: IToggleButtonProp) => {
-  const { onClick } = prop;
+  useEffect(() => {
+    chrome.history.search({ text: "" }, historyList => {
+      setHistories(historyList);
+    });
+  }, [setHistories]);
 
   return (
-    <button
-      onClick={onClick}
-      css={
-        css`
-        width: 50px;
-          position: absolute;
-          right: -100px;
-        `
-      }
+    <div
+      css={css`
+        width: 400px;
+        height: 600px;
+        background-color: #000;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+        overflow-y: auto;
+      `}
     >
-      노출 상태:
-    </button>
-  )
-}
-
-const Container = (prop: IContainerProp) => {
-  const [show, setShow] = useRecoilState(containerShowState);
-  const toggleContainer = () => {
-    setShow(!show);
-  }
-  const { direction } = prop;
-  return (
-    <RecoilRoot>
-      <div
-        className={show ? "open" : undefined}
-        css={css`
-        border: 1px solid black;
-        position: fixed;
-        ${direction === "right" ? "right" : "left"}: -320px;
-        width: 320px;
-        height: 100%;
-        box-sizing: border-box;
-        transition: left .5s;
-        top: 0px;
-
-        &.open {
-          ${direction === "right" ? "right" : "left"}: 0px;
-        }
-        `}
-      >
-        <ToggleButton onClick={toggleContainer}></ToggleButton>
-      </div>
-    </RecoilRoot>
+      <HistoryList histories={histories} />
+    </div>
   );
-}
+};
 
 export default Container;
