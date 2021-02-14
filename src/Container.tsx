@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { css } from "@emotion/react";
 import { atom, useRecoilState } from "recoil";
 
@@ -9,9 +9,14 @@ const historiesState = atom<chrome.history.HistoryItem[]>({
   default: [],
 });
 
+const searchState = atom<string>({
+  key: "searchState",
+  default: "",
+});
+
 const Container: FC = () => {
   const [histories, setHistories] = useRecoilState(historiesState);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useRecoilState(searchState);
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
