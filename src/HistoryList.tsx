@@ -5,9 +5,14 @@ import { convertToDateFormat } from "./utils";
 
 interface IHistoryListProps {
   histories: chrome.history.HistoryItem[];
+  searchKeyword: string;
 }
 
-const HistoryList: FC<IHistoryListProps> = ({ histories }) => {
+const HistoryList: FC<IHistoryListProps> = ({ histories, searchKeyword }) => {
+  const filteredHistories = histories.filter((history) => {
+    return history.title?.includes(searchKeyword);
+  });
+
   return (
     <ul
       css={css`
@@ -16,7 +21,7 @@ const HistoryList: FC<IHistoryListProps> = ({ histories }) => {
         padding: 0 10px;
       `}
     >
-      {histories.map(history => (
+      {filteredHistories.map(history => (
         <li
           css={css`
             display: flex;
