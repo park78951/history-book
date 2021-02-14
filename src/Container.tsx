@@ -51,15 +51,7 @@ const Container: FC = () => {
         onChange={onChangeSearch}
         onSubmit={searchHistories}
       />
-      <div
-        css={css`
-          width: 100%;
-          height: 500px;
-          overflow-y: auto;
-        `}
-      >
-        <HistoryList histories={histories} />
-      </div>
+      <HistoryList histories={histories} />
     </div>
   );
 };

@@ -9,49 +9,57 @@ interface IHistoryListProps {
 
 const HistoryList: FC<IHistoryListProps> = ({ histories }) => {
   return (
-    <ul
+    <div
       css={css`
+        width: 100%;
+        height: 500px;
         overflow-y: auto;
-        list-style: none;
-        padding: 0 10px;
       `}
     >
-      {histories.map(history => (
-        <li
-          css={css`
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff;
-          `}
-        >
-          <span
+      <ul
+        css={css`
+          overflow-y: auto;
+          list-style: none;
+          padding: 0 10px;
+        `}
+      >
+        {histories.map(history => (
+          <li
             css={css`
-              display: inline-block;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              width: 240px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              color: #fff;
             `}
           >
-            {history.title || "무제"}
-          </span>
-          <span
-            css={css`
-              display: inline-block;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              width: 87px;
-            `}
-          >
-            {history.lastVisitTime
-              ? convertToDateFormat(history.lastVisitTime)
-              : "정보없음"}
-          </span>
-        </li>
-      ))}
-    </ul>
+            <span
+              css={css`
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 240px;
+              `}
+            >
+              {history.title || "무제"}
+            </span>
+            <span
+              css={css`
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 87px;
+              `}
+            >
+              {history.lastVisitTime
+                ? convertToDateFormat(history.lastVisitTime)
+                : "정보없음"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
