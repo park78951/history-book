@@ -3,20 +3,33 @@ import { css } from "@emotion/react";
 import { atom, useRecoilState } from "recoil";
 
 import HistoryList from "./HistoryList";
+import SearchInput from "./SearchInput";
 
 const historiesState = atom<chrome.history.HistoryItem[]>({
   key: "historiesState",
   default: [],
 });
 
+const searchKeywordState = atom({
+  key: "searchKeyword",
+  default: "",
+});
+
 const Container: FC = () => {
   const [histories, setHistories] = useRecoilState(historiesState);
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
 
   useEffect(() => {
     chrome.history.search({ text: "" }, historyList => {
       setHistories(historyList);
     });
   }, [setHistories]);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+
+    setSearchKeyword(event.target.value);
+  };
 
   return (
     <div
@@ -29,7 +42,8 @@ const Container: FC = () => {
         overflow-y: auto;
       `}
     >
-      <HistoryList histories={histories} />
+      <SearchInput onChange={onChange}/>
+      <HistoryList histories={histories} searchKeyword={searchKeyword} />
     </div>
   );
 };
