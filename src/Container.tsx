@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { atom, useRecoilState } from "recoil";
 
@@ -11,6 +11,12 @@ const historiesState = atom<chrome.history.HistoryItem[]>({
 
 const Container: FC = () => {
   const [histories, setHistories] = useRecoilState(historiesState);
+  const [search, setSearch] = useState("");
+
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSearch(value);
+  };
 
   useEffect(() => {
     chrome.history.search({ text: "" }, historyList => {
@@ -35,6 +41,8 @@ const Container: FC = () => {
         `}
       >
         <input
+          value={search}
+          onChange={onChangeSearch}
           css={css`
             width: 200px;
             height: 25px;
@@ -44,6 +52,7 @@ const Container: FC = () => {
             color: #fff;
             outline: none;
             margin-right: 10px;
+            padding-left: 5px;
           `}
         />
         <button
