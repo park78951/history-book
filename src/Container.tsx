@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { atom, useRecoilState } from "recoil";
 
 import HistoryList from "./HistoryList";
+import SearchFrom from "./SearchForm";
 
 const historiesState = atom<chrome.history.HistoryItem[]>({
   key: "historiesState",
@@ -45,43 +46,11 @@ const Container: FC = () => {
         padding: 10px 0;
       `}
     >
-      <form
+      <SearchFrom
+        value={search}
+        onChange={onChangeSearch}
         onSubmit={searchHistories}
-        css={css`
-          display: flex;
-          justify-content: center;
-          overflow-y: auto;
-        `}
-      >
-        <input
-          value={search}
-          onChange={onChangeSearch}
-          css={css`
-            width: 200px;
-            height: 25px;
-            border: none;
-            border-bottom: 1px solid #dc143c;
-            background-color: transparent;
-            color: #fff;
-            outline: none;
-            margin-right: 10px;
-            padding-left: 5px;
-          `}
-        />
-        <button
-          type="submit"
-          css={css`
-            width: 80px;
-            height: 25px;
-            color: #dc143c;
-            border: 1px solid #dc143c;
-            background-color: #000;
-            outline: none;
-          `}
-        >
-          검색
-        </button>
-      </form>
+      />
       <div
         css={css`
           width: 100%;
