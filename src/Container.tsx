@@ -18,6 +18,13 @@ const Container: FC = () => {
     setSearch(value);
   };
 
+  const searchHistories = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    chrome.history.search({ text: search }, historyList => {
+      setHistories(historyList);
+    });
+  };
+
   useEffect(() => {
     chrome.history.search({ text: "" }, historyList => {
       setHistories(historyList);
@@ -34,6 +41,7 @@ const Container: FC = () => {
       `}
     >
       <form
+        onSubmit={searchHistories}
         css={css`
           display: flex;
           justify-content: center;
