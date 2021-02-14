@@ -22,14 +22,53 @@ const Container: FC = () => {
     <div
       css={css`
         width: 400px;
-        height: 600px;
         background-color: #000;
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-          0 10px 10px rgba(0, 0, 0, 0.22);
         overflow-y: auto;
+        padding: 10px 0;
       `}
     >
-      <HistoryList histories={histories} />
+      <form
+        css={css`
+          display: flex;
+          justify-content: center;
+          overflow-y: auto;
+        `}
+      >
+        <input
+          css={css`
+            width: 200px;
+            height: 25px;
+            border: none;
+            border-bottom: 1px solid #dc143c;
+            background-color: transparent;
+            color: #fff;
+            outline: none;
+            margin-right: 10px;
+          `}
+        />
+        <button
+          type="submit"
+          css={css`
+            width: 80px;
+            height: 25px;
+            color: #dc143c;
+            border: 1px solid #dc143c;
+            background-color: #000;
+            outline: none;
+          `}
+        >
+          검색
+        </button>
+      </form>
+      <div
+        css={css`
+          width: 100%;
+          height: 500px;
+          overflow-y: auto;
+        `}
+      >
+        <HistoryList histories={histories} />
+      </div>
     </div>
   );
 };
