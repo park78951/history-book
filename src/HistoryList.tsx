@@ -7,6 +7,13 @@ interface IHistoryListProps {
   histories: chrome.history.HistoryItem[];
 }
 
+const historyLiStyle = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+`;
+
 const HistoryList: FC<IHistoryListProps> = ({ histories }) => {
   return (
     <div
@@ -23,41 +30,38 @@ const HistoryList: FC<IHistoryListProps> = ({ histories }) => {
           padding: 0 10px;
         `}
       >
-        {histories.map(history => (
-          <li
-            css={css`
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              color: #fff;
-            `}
-          >
-            <span
-              css={css`
-                display: inline-block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                width: 240px;
-              `}
-            >
-              {history.title || "무제"}
-            </span>
-            <span
-              css={css`
-                display: inline-block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                width: 87px;
-              `}
-            >
-              {history.lastVisitTime
-                ? convertToDateFormat(history.lastVisitTime)
-                : "정보없음"}
-            </span>
-          </li>
-        ))}
+        {histories.length > 0 ? (
+          histories.map(history => (
+            <li css={historyLiStyle}>
+              <span
+                css={css`
+                  display: inline-block;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  width: 240px;
+                `}
+              >
+                {history.title || "무제"}
+              </span>
+              <span
+                css={css`
+                  display: inline-block;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  width: 87px;
+                `}
+              >
+                {history.lastVisitTime
+                  ? convertToDateFormat(history.lastVisitTime)
+                  : "정보없음"}
+              </span>
+            </li>
+          ))
+        ) : (
+          <li css={historyLiStyle}>검색 결과가 없습니다.</li>
+        )}
       </ul>
     </div>
   );

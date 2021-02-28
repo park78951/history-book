@@ -22,6 +22,12 @@ const Container: FC = () => {
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
+
+    if (value === "") {
+      chrome.history.search({ text: "" }, historyList => {
+        setHistories(historyList);
+      });
+    }
   };
 
   const searchHistories = (event: React.FormEvent<HTMLFormElement>) => {
