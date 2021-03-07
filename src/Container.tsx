@@ -70,6 +70,19 @@ const Container: FC = () => {
     });
   }, [setHistories]);
 
+  useEffect(() => {
+    chrome.history.search(
+      {
+        text: search,
+        startTime: filter.startDate ?? undefined,
+        endTime: filter.endDate ?? undefined,
+      },
+      historyList => {
+        setHistories(historyList);
+      }
+    );
+  }, [filter]);
+
   return (
     <div
       css={css`
