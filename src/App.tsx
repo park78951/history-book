@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./Container";
 import { RecoilRoot } from "recoil";
 import { Global, css } from "@emotion/react";
+import "antd/dist/antd.css";
 
 function App() {
   return (
