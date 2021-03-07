@@ -2,7 +2,14 @@ import React, { FC } from "react";
 import { DatePicker, Space } from "antd";
 import { css } from "@emotion/react";
 
-const Filter: FC = () => {
+import { Moment } from "moment";
+
+interface IFilterProps {
+  onChangeStartDate: (date: Moment | null, dateStr: string) => void;
+  onChangeEndDate: (date: Moment | null, dateStr: string) => void;
+}
+
+const Filter: FC<IFilterProps> = ({ onChangeStartDate }) => {
   return (
     <div
       css={css`
@@ -24,7 +31,7 @@ const Filter: FC = () => {
             시작:{" "}
           </span>
           <Space>
-            <DatePicker size="small" />
+            <DatePicker size="small" onChange={onChangeStartDate} />
           </Space>
         </div>
         <div

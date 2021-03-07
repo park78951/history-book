@@ -6,6 +6,8 @@ import HistoryList from "./HistoryList";
 import SearchFrom from "./SearchForm";
 import Filter from "./Filter";
 
+import { Moment } from "moment";
+
 const historiesState = atom<chrome.history.HistoryItem[]>({
   key: "historiesState",
   default: [],
@@ -16,9 +18,25 @@ const searchState = atom<string>({
   default: "",
 });
 
+interface IFilterState {
+  startDate: number | null;
+  endDate: number | null;
+}
+
+const initFilterstate = {
+  startDate: null,
+  endDate: null,
+};
+
+const filterState = atom<IFilterState>({
+  key: "filterState",
+  default: initFilterstate,
+});
+
 const Container: FC = () => {
   const [histories, setHistories] = useRecoilState(historiesState);
   const [search, setSearch] = useRecoilState(searchState);
+  const [filter, setFilter] = useRecoilState(filterState);
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -36,6 +54,14 @@ const Container: FC = () => {
     chrome.history.search({ text: search }, historyList => {
       setHistories(historyList);
     });
+  };
+
+  const onChangeStartDate = (date: Moment | null, dateStr: string) => {
+    setFilter({ ...filter, startDate: new Date(dateStr).getTime() });
+  };
+
+  const onChangeEndDate = (date: Moment | null, dateStr: string) => {
+    setFilter({ ...filter, endDate: new Date(dateStr).getTime() });
   };
 
   useEffect(() => {
@@ -58,7 +84,10 @@ const Container: FC = () => {
         onChange={onChangeSearch}
         onSubmit={searchHistories}
       />
-      <Filter />
+      <Filter
+        onChangeStartDate={onChangeStartDate}
+        onChangeEndDate={onChangeEndDate}
+      />
       <HistoryList histories={histories} />
     </div>
   );
