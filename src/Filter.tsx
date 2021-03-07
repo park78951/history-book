@@ -9,7 +9,7 @@ interface IFilterProps {
   onChangeEndDate: (date: Moment | null, dateStr: string) => void;
 }
 
-const Filter: FC<IFilterProps> = ({ onChangeStartDate }) => {
+const Filter: FC<IFilterProps> = ({ onChangeStartDate, onChangeEndDate }) => {
   return (
     <div
       css={css`
@@ -47,7 +47,7 @@ const Filter: FC<IFilterProps> = ({ onChangeStartDate }) => {
             끝:{" "}
           </span>
           <Space>
-            <DatePicker size="small" />
+            <DatePicker size="small" onChange={onChangeEndDate} />
           </Space>
         </div>
       </div>
