@@ -4,6 +4,7 @@ import { atom, useRecoilState } from "recoil";
 
 import HistoryList from "./HistoryList";
 import SearchFrom from "./SearchForm";
+import Filter from "./Filter";
 
 const historiesState = atom<chrome.history.HistoryItem[]>({
   key: "historiesState",
@@ -57,6 +58,7 @@ const Container: FC = () => {
         onChange={onChangeSearch}
         onSubmit={searchHistories}
       />
+      <Filter />
       <HistoryList histories={histories} />
     </div>
   );
